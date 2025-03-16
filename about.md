@@ -4,15 +4,8 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Hi, I’m Tugce *[ˈtuːtʃe]* — just a girl doing her PhD in AI. I finally found the courage to start the blog I’ve always dreamed of. This is my little corner of the internet where I think out loud about the questions, research, and ideas in AI that light me up.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Whether it’s a cool paper, a strange behavior from a model, or a bit of code that made me pause and smile — if it sparks curiosity, it’ll probably show up here.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+Feel free to reach out if you’re working on something exciting in AI or just want to chat! You can find more about me on [my personal page](https://tugcegurbuz.github.io/)

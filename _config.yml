@@ -1,14 +1,14 @@
-title: Your awesome title
+title: Robot psychologist's blog
 author:
-  name: GitHub User
+  name: Busra Tugce Gurbuz
   email: your-email@domain.com
 
 # The `>` after `description:` means to ignore line-breaks until next key.
 # If you want to omit the line-break after the end of text, use `>-` instead.
 description: >
-  Write an awesome description for your new site here. You can edit this line
-  in _config.yml. It will appear in your document head meta (for Google search
-  results) and in your feed.xml site description.
+Welcome to Robot Psychologist's Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time. 
+I'm a PhD student in neuro-AI, and this is my space to explore the ideas, research papers, experiments, and code that excite me most — from cognitive inspirations to quirky failures, from memory in agents to vision models 
+and beyond. If you're into how intelligent systems (human or artificial) learn, adapt, and act, you'll feel right at home.
 
 # Build settings
 
