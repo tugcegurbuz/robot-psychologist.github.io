@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments | Robot psychologist’s blog</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" />
+<meta name="author" content="Busra Tugce Gurbuz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs." />
+<meta property="og:description" content="Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs." />
+<link rel="canonical" href="http://localhost:4000/compute/2024/07/22/GPUs.html" />
+<meta property="og:url" content="http://localhost:4000/compute/2024/07/22/GPUs.html" />
+<meta property="og:site_name" content="Robot psychologist’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-22T00:00:00-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Busra Tugce Gurbuz"},"dateModified":"2024-07-22T00:00:00-04:00","datePublished":"2024-07-22T00:00:00-04:00","description":"Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.","headline":"Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/compute/2024/07/22/GPUs.html"},"url":"http://localhost:4000/compute/2024/07/22/GPUs.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Robot psychologist&apos;s blog" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Robot psychologist&#39;s blog</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon fas fa-bars fa-lg"></span>
+        </label>
+
+        <div class="drawer-container">
+          <div class="drawer">
+  <a class="nav-item" href="/about/">About</a>
+          </div>
+        </div>
+        <div class="slab">
+  <a class="nav-item" href="/about/">About</a>
+        </div>
+      </nav>
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</h1>
+    <div class="post-meta">
+      <time class="dt-published" datetime="2024-07-22T00:00:00-04:00" itemprop="datePublished">
+        Jul 22, 2024
+      </time>
+    </div>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
+
+<hr />
+
+<h3 id="wait-why-is-my-gpu-so-bored-">Wait, Why Is My GPU So Bored? 🥹</h3>
+
+<p>Ever peeked at <code class="language-plaintext highlighter-rouge">nvidia-smi</code> mid-training and felt personally offended by a <strong>15% GPU utilization</strong> reading?</p>
+
+<p>You’re not alone.</p>
+
+<p>In many ML setups—especially in deep reinforcement learning or self-supervised learning—the GPU ends up spending more time <strong>waiting around</strong> than doing actual work. Here’s why:</p>
+
+<ul>
+  <li>Your model might be <strong>tiny</strong> (looking at you, MLPs and small CNNs).</li>
+  <li><strong>Environment steps</strong> in RL live on the CPU and take their sweet time.</li>
+  <li><strong>Data augmentation</strong> and preprocessing often clog the CPU while the GPU twiddles its thumbs.</li>
+  <li>Even classic vision or SimCLR jobs on CIFAR-10 barely dent the surface of a modern A100’s power.</li>
+</ul>
+
+<p>Moral of the story? <strong>You’ve got untapped compute just sitting there.</strong></p>
+
+<h3 id="signs-of-gpu-underuse">Signs of GPU Underuse</h3>
+
+<p>Here’s how to know your GPU’s taking a nap:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">nvidia-smi</code> shows <strong>plenty of free VRAM</strong> (e.g., using 5 GB out of 40 GB).</li>
+  <li>Compute “Util” column idles in the teens while the CPU sits near 100 %.
+    <ul>
+      <li>Example: a fastai ResNet-18 computer-vision run on an A100 sat at ~20 % util with memory to spare (<a href="https://stackoverflow.com/questions/75553862/low-utilization-of-the-a100-gpu-with-fastai">reference</a>) or an RLlib DQN job with 256 k batch size still spiked only briefly above 25 %</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You might be tempted to buy more GPUs. Don’t. <strong>Use what you already have better.</strong></p>
+
+<h3 id="the-secret-run-multiple-jobs-at-once">The Secret: Run Multiple Jobs at Once</h3>
+
+<p>If your current job is only using a slice of the GPU, just stack more on top!</p>
+
+<p>Here’s the magic formula:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run three jobs in parallel</span>
+<span class="k">for </span>seed <span class="k">in </span>0 1 2<span class="p">;</span> <span class="k">do
+    </span>python train.py <span class="nt">--seed</span> <span class="nv">$seed</span> &amp;   <span class="c"># Launch in background</span>
+<span class="k">done
+</span><span class="nb">wait</span>  <span class="c"># Let them all finish before exiting</span>
+</code></pre></div></div>
+
+<p>Why it works:</p>
+
+<ul>
+  <li>
+    <p>Each job uses a slice of VRAM; their peaks rarely coincide.</p>
+  </li>
+  <li>Streaming Multiprocessor stay busier because when one job waits on the CPU, another is mid-backprop.
+    <ul>
+      <li><strong>More info on SMs:</strong> Each SM handles the actual math operations (like matrix multiplies and convolutions). A100 has 108 SMs, which means it can handle a lot of parallel math — if you feed it well.</li>
+    </ul>
+  </li>
+  <li>You triple sweep throughput without touching the cluster queue.</li>
+</ul>
+
+<h3 id="slurm-friendly-version-yes-it-works-on-clusters">SLURM-Friendly Version (Yes, It Works on Clusters)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=stacked_runs</span>
+<span class="c">#SBATCH --gres=gpu:a100:1</span>
+<span class="c">#SBATCH --cpus-per-task=8</span>
+<span class="c">#SBATCH --mem=32G</span>
+
+module load anaconda/3
+conda activate ml-env
+<span class="nb">cd</span> <span class="nv">$SLURM_SUBMIT_DIR</span>
+
+<span class="c"># Launch 3 jobs concurrently</span>
+<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
+    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
+<span class="k">done
+</span><span class="nb">wait</span>
+</code></pre></div></div>
+
+<p>This trick works great for:</p>
+
+<ul>
+  <li>Hyperparameter sweeps</li>
+  <li>Seed averaging</li>
+  <li>Trying three ideas because you’re impatient (relatable)</li>
+</ul>
+
+<h3 id="tips-pitfalls-and-gotchas-with-explanations">Tips, Pitfalls, and Gotchas (With Explanations!)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>✅ / ⚠️</th>
+      <th>What You Should Know</th>
+      <th>Why It Matters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>✅</td>
+      <td><strong>Leave ~10% VRAM unused</strong></td>
+      <td>PyTorch loves to surprise you with memory spikes. A small buffer helps you avoid sudden OOM crashes that wipe out <em>all</em> jobs.</td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td><strong>Use <code class="language-plaintext highlighter-rouge">/scratch</code> or SSD storage</strong></td>
+      <td>If three jobs all hit the disk at once on slow storage, your fancy parallelism will turn into a data-loading traffic jam.</td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td><strong>Tag runs in your logger (e.g., <code class="language-plaintext highlighter-rouge">wandb --group stacked</code>)</strong></td>
+      <td>Keeps your dashboards from looking like a spaghetti bowl of metrics. Easier to compare, track, and brag about.</td>
+    </tr>
+    <tr>
+      <td>✅</td>
+      <td><strong>Watch <code class="language-plaintext highlighter-rouge">num_workers</code> and threads</strong></td>
+      <td>Each job spawns data loaders. Multiply that by three and suddenly your system has 48 zombie processes hoarding RAM. Keep things lean.</td>
+    </tr>
+    <tr>
+      <td>⚠️</td>
+      <td><strong>Don’t stack giant models</strong></td>
+      <td>If you’re running LLMs, ViTs, or anything eating 80%+ VRAM, just… don’t. You’ll get out-of-memory errors faster than you can say “SIGKILL”.</td>
+    </tr>
+    <tr>
+      <td>⚠️</td>
+      <td><strong>Know your cluster’s rules</strong></td>
+      <td>Some clusters have strict policies: one job per GPU, no background processes, etc. Break them, and you might lose access. Nobody wants that email.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="tldr-">TL;DR 💛</h3>
+
+<p><strong>If your GPU looks bored, it probably is.</strong></p>
+
+<p>Instead of leaving it idle, stack 2–3 light-to-medium jobs on the same card. You’ll:</p>
+
+<ul>
+  <li>Finish sweeps 2–3x faster</li>
+  <li>Reduce total GPU-hours</li>
+  <li>Help your labmates get off the waitlist</li>
+</ul>
+
+<h3 id="your-move-">Your Move 💅</h3>
+
+<ol>
+  <li>Fire up few extra jobs.</li>
+  <li>Monitor <code class="language-plaintext highlighter-rouge">nvidia-smi</code>.</li>
+  <li>Watch your GPU actually break a sweat.</li>
+  <li>Flex your productivity gains.</li>
+</ol>
+
+<p>You don’t need more compute—you just need to <strong>use it smarter</strong>.</p>
+
+  </div><a class="u-url" href="/compute/2024/07/22/GPUs.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <!-- <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+              />
+            </svg><span>Subscribe</span>
+          </a>
+        </p> -->
+        <ul class="contact-list">
+          <li class="p-name">Busra Tugce Gurbuz</li>
+          <li><a class="u-email" href="mailto:your-email@domain.com">your-email@domain.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Welcome to Robot Psychologist&#39;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&#39;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&#39;re into how intelligent systems (human or artificial) learn, adapt, and act, you&#39;ll feel right at home.
+</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>
