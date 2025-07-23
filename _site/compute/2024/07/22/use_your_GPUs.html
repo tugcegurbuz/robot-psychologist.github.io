@@ -10,15 +10,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs." />
 <meta property="og:description" content="Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs." />
-<link rel="canonical" href="http://localhost:4000/compute/2024/07/22/GPUs.html" />
-<meta property="og:url" content="http://localhost:4000/compute/2024/07/22/GPUs.html" />
+<link rel="canonical" href="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" />
+<meta property="og:url" content="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" />
 <meta property="og:site_name" content="Robot psychologist’s blog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2024-07-22T00:00:00-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Busra Tugce Gurbuz"},"dateModified":"2024-07-22T00:00:00-04:00","datePublished":"2024-07-22T00:00:00-04:00","description":"Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.","headline":"Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/compute/2024/07/22/GPUs.html"},"url":"http://localhost:4000/compute/2024/07/22/GPUs.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Busra Tugce Gurbuz"},"dateModified":"2024-07-22T00:00:00-04:00","datePublished":"2024-07-22T00:00:00-04:00","description":"Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.","headline":"Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"},"url":"http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Robot psychologist&apos;s blog" />
@@ -101,10 +101,10 @@
 <p>Here’s the magic formula:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run three jobs in parallel</span>
-<span class="k">for </span>seed <span class="k">in </span>0 1 2<span class="p">;</span> <span class="k">do
-    </span>python train.py <span class="nt">--seed</span> <span class="nv">$seed</span> &amp;   <span class="c"># Launch in background</span>
+<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
+    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
 <span class="k">done
-</span><span class="nb">wait</span>  <span class="c"># Let them all finish before exiting</span>
+</span><span class="nb">wait</span> <span class="c"># Let them all finish before exiting</span>
 </code></pre></div></div>
 
 <p>Why it works:</p>
@@ -120,25 +120,6 @@
   </li>
   <li>You triple sweep throughput without touching the cluster queue.</li>
 </ul>
-
-<h3 id="slurm-friendly-version-yes-it-works-on-clusters">SLURM-Friendly Version (Yes, It Works on Clusters)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=stacked_runs</span>
-<span class="c">#SBATCH --gres=gpu:a100:1</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-<span class="c">#SBATCH --mem=32G</span>
-
-module load anaconda/3
-conda activate ml-env
-<span class="nb">cd</span> <span class="nv">$SLURM_SUBMIT_DIR</span>
-
-<span class="c"># Launch 3 jobs concurrently</span>
-<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
-    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
-<span class="k">done
-</span><span class="nb">wait</span>
-</code></pre></div></div>
 
 <p>This trick works great for:</p>
 
@@ -215,7 +196,7 @@ conda activate ml-env
 
 <p>You don’t need more compute—you just need to <strong>use it smarter</strong>.</p>
 
-  </div><a class="u-url" href="/compute/2024/07/22/GPUs.html" hidden></a>
+  </div><a class="u-url" href="/compute/2024/07/22/use_your_GPUs.html" hidden></a>
 </article>
 
       </div>
@@ -239,7 +220,7 @@ conda activate ml-env
         </p> -->
         <ul class="contact-list">
           <li class="p-name">Busra Tugce Gurbuz</li>
-          <li><a class="u-email" href="mailto:your-email@domain.com">your-email@domain.com</a></li>
+          <li><a class="u-email" href="mailto:"></a></li>
         </ul>
       </div>
       <div class="footer-col">

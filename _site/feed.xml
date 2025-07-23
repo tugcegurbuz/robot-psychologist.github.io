@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-22T21:47:50-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Robot psychologist’s blog</title><subtitle>Welcome to Robot Psychologist&apos;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&apos;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&apos;re into how intelligent systems (human or artificial) learn, adapt, and act, you&apos;ll feel right at home.
-</subtitle><author><name>Busra Tugce Gurbuz</name></author><entry><title type="html">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</title><link href="http://localhost:4000/compute/2024/07/22/GPUs.html" rel="alternate" type="text/html" title="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" /><published>2024-07-22T00:00:00-04:00</published><updated>2024-07-22T00:00:00-04:00</updated><id>http://localhost:4000/compute/2024/07/22/GPUs</id><content type="html" xml:base="http://localhost:4000/compute/2024/07/22/GPUs.html"><![CDATA[<p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-22T21:58:41-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Robot psychologist’s blog</title><subtitle>Welcome to Robot Psychologist&apos;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&apos;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&apos;re into how intelligent systems (human or artificial) learn, adapt, and act, you&apos;ll feel right at home.
+</subtitle><author><name>Busra Tugce Gurbuz</name><email></email></author><entry><title type="html">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</title><link href="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" rel="alternate" type="text/html" title="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" /><published>2024-07-22T00:00:00-04:00</published><updated>2024-07-22T00:00:00-04:00</updated><id>http://localhost:4000/compute/2024/07/22/use_your_GPUs</id><content type="html" xml:base="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"><![CDATA[<p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
 
 <hr />
 
@@ -42,10 +42,10 @@
 <p>Here’s the magic formula:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run three jobs in parallel</span>
-<span class="k">for </span>seed <span class="k">in </span>0 1 2<span class="p">;</span> <span class="k">do
-    </span>python train.py <span class="nt">--seed</span> <span class="nv">$seed</span> &amp;   <span class="c"># Launch in background</span>
+<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
+    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
 <span class="k">done
-</span><span class="nb">wait</span>  <span class="c"># Let them all finish before exiting</span>
+</span><span class="nb">wait</span> <span class="c"># Let them all finish before exiting</span>
 </code></pre></div></div>
 
 <p>Why it works:</p>
@@ -61,25 +61,6 @@
   </li>
   <li>You triple sweep throughput without touching the cluster queue.</li>
 </ul>
-
-<h3 id="slurm-friendly-version-yes-it-works-on-clusters">SLURM-Friendly Version (Yes, It Works on Clusters)</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="c">#SBATCH --job-name=stacked_runs</span>
-<span class="c">#SBATCH --gres=gpu:a100:1</span>
-<span class="c">#SBATCH --cpus-per-task=8</span>
-<span class="c">#SBATCH --mem=32G</span>
-
-module load anaconda/3
-conda activate ml-env
-<span class="nb">cd</span> <span class="nv">$SLURM_SUBMIT_DIR</span>
-
-<span class="c"># Launch 3 jobs concurrently</span>
-<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
-    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
-<span class="k">done
-</span><span class="nb">wait</span>
-</code></pre></div></div>
 
 <p>This trick works great for:</p>
 

@@ -43,10 +43,10 @@ Here’s the magic formula:
 
 ```bash
 # Run three jobs in parallel
-for seed in 0 1 2; do
-    python train.py --seed $seed &   # Launch in background
+for cfg in cfg1.yaml cfg2.yaml cfg3.yaml; do
+    python train.py --config $cfg & 
 done
-wait  # Let them all finish before exiting
+wait # Let them all finish before exiting
 ````
 
 Why it works:
@@ -57,27 +57,6 @@ Why it works:
   - **More info on SMs:** Each SM handles the actual math operations (like matrix multiplies and convolutions). A100 has 108 SMs, which means it can handle a lot of parallel math — if you feed it well.
 
 - You triple sweep throughput without touching the cluster queue.
-
-
-### SLURM-Friendly Version (Yes, It Works on Clusters)
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=stacked_runs
-#SBATCH --gres=gpu:a100:1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=32G
-
-module load anaconda/3
-conda activate ml-env
-cd $SLURM_SUBMIT_DIR
-
-# Launch 3 jobs concurrently
-for cfg in cfg1.yaml cfg2.yaml cfg3.yaml; do
-    python train.py --config $cfg & 
-done
-wait
-```
 
 This trick works great for:
 
