@@ -1,5 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-22T21:58:41-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Robot psychologist’s blog</title><subtitle>Welcome to Robot Psychologist&apos;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&apos;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&apos;re into how intelligent systems (human or artificial) learn, adapt, and act, you&apos;ll feel right at home.
-</subtitle><author><name>Busra Tugce Gurbuz</name><email></email></author><entry><title type="html">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</title><link href="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" rel="alternate" type="text/html" title="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" /><published>2024-07-22T00:00:00-04:00</published><updated>2024-07-22T00:00:00-04:00</updated><id>http://localhost:4000/compute/2024/07/22/use_your_GPUs</id><content type="html" xml:base="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"><![CDATA[<p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-29T10:04:56-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Robot psychologist’s blog</title><subtitle>Welcome to Robot Psychologist&apos;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&apos;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&apos;re into how intelligent systems (human or artificial) learn, adapt, and act, you&apos;ll feel right at home.
+</subtitle><author><name>Busra Tugce Gurbuz</name><email></email></author><entry><title type="html">From BYOL to JEPA: How Student–Teacher Networks Quietly Became the Brains Behind World Models</title><link href="http://localhost:4000/ssl/2024/07/29/ts_world_models.html" rel="alternate" type="text/html" title="From BYOL to JEPA: How Student–Teacher Networks Quietly Became the Brains Behind World Models" /><published>2024-07-29T00:00:00-04:00</published><updated>2024-07-29T00:00:00-04:00</updated><id>http://localhost:4000/ssl/2024/07/29/ts_world_models</id><content type="html" xml:base="http://localhost:4000/ssl/2024/07/29/ts_world_models.html"><![CDATA[<p>Training an agent that can reason about its environment—without ground‑truth labels—requires a robust internal simulator, often called a <strong>world model</strong>.  Among the many ideas in self‑supervised learning (SSL), the <strong>student–teacher paradigm</strong> has proven repeatedly effective at producing the high‑quality representations that such world models depend on.</p>
+
+<p>This post explains how student–teacher SSL works, why it has been influential and might be important for building better world models.</p>
+
+<h3 id="what-is-a-studentteacher-network">What Is a Student–Teacher Network?</h3>
+
+<p>A student–teacher setup contains two networks:</p>
+
+<ul>
+  <li><strong>Teacher</strong> – Provides target features or predictions.</li>
+  <li><strong>Student</strong> – Trains to match those targets across augmented views of the same input.</li>
+</ul>
+
+<p>The teacher is usually an <strong>exponential moving average (EMA)</strong> of the student, so its parameters evolve slowly and provide a stable learning signal.  Because targets come from the model itself rather than external labels, the approach scales to unlabeled data.</p>
+
+<h3 id="why-it-works">Why It Works</h3>
+
+<ul>
+  <li><strong>Soft targets carry richer information</strong> than one‑hot labels, exposing inter‑class structure and uncertainty.</li>
+  <li><strong>Temporal smoothing</strong> via EMA aggregates knowledge over many updates, acting like an implicit ensemble.</li>
+  <li><strong>Augmentation consistency</strong> forces invariance to viewpoint, color, cropping and other real‑world nuisance factors.</li>
+</ul>
+
+<h3 id="a-brief-historical-detour">A Brief Historical Detour</h3>
+
+<p>The student–teacher idea is far from new; it has surfaced in diverse corners of SSL for nearly a decade.</p>
+
+<ul>
+  <li><strong>Temporal Ensembling (2017)</strong> – Improved semi‑supervised classification by averaging model predictions over multiple epochs.</li>
+  <li><strong>Mean Teacher (2017)</strong> – Used EMA weights explicitly to create a teacher for consistency regularisation.</li>
+  <li><strong>MoCo (2019)</strong> – Employed a momentum encoder (teacher) to populate a memory bank for contrastive learning.</li>
+  <li><strong>BYOL (2020)</strong> – Demonstrated that a student can learn useful features from an EMA teacher without any negative pairs.</li>
+  <li><strong>DINO (2021)</strong> – Showed that applying centering and sharpening to teacher outputs prevents collapse at scale.</li>
+  <li><strong>JEPA family (2023 – present)</strong> – Recasts the student–teacher idea as <strong>masked‑region prediction</strong>: the student, given only a partial view, predicts the teacher’s features for the hidden region.  This simple shift from view alignment to spatial prediction yields object‑centric, forward‑looking representations—ideal for world‑model objectives.</li>
+  <li><strong>Speech, NLP and Multimodal Work</strong> – Similar momentum‑distillation ideas power HuBERT, CLIP variants, and more.</li>
+</ul>
+
+<h4 id="why-this-lineage-matters">Why This Lineage Matters</h4>
+
+<ol>
+  <li><strong>Evidence of robustness</strong> – The same principle succeeds across vision, speech and language, suggesting a fundamental mechanism.</li>
+  <li><strong>Design inspiration</strong> – Historical tricks (memory banks, centering, sharpening, predictor asymmetry) offer a toolbox for future models.</li>
+  <li><strong>Theoretical grounding</strong> – Understanding how targets evolve sheds light on why collapse happens and how to avoid it.</li>
+  <li><strong>Transferable intuition</strong> – Insights gained in vision often translate to other modalities, accelerating cross‑domain progress.</li>
+</ol>
+
+<h3 id="moving-beyond-contrastive-learning">Moving Beyond Contrastive Learning</h3>
+
+<p>Early SSL methods such as SimCLR and InfoNCE relied on negative pairs: anchor‑positive similarities were maximised while anchor‑negative similarities were minimised.  This led to:</p>
+
+<ul>
+  <li>Large batch‑size requirements.</li>
+  <li>Risk of <strong>false negatives</strong> when semantically similar images were pushed apart.</li>
+  <li>Additional engineering (memory banks, distributed synchronisation).</li>
+</ul>
+
+<p>Student–teacher methods sidestep these issues by <strong>removing negatives altogether</strong>.  Instead, learning is driven by matching the teacher’s targets, greatly simplifying training and improving stability.</p>
+
+<h3 id="collapse-and-how-to-avoid-it">Collapse and How to Avoid It</h3>
+
+<p>Removing negatives introduces a new risk: the student may converge to a trivial solution where every input maps to the same embedding, a phenomenon known as “collapse”.</p>
+
+<ul>
+  <li><strong>BYOL</strong> counters this with architectural asymmetry (student has an extra predictor) and EMA updates.</li>
+  <li><strong>DINO</strong> keeps both networks identical but applies two regularisers:
+    <ul>
+      <li><strong>Centering</strong> subtracts a running mean to prevent feature domination.</li>
+      <li><strong>Sharpening</strong> uses low‑temperature softmax to encourage confident, non‑uniform outputs.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>These tricks maintain diversity without re‑introducing negatives.</p>
+
+<h3 id="why-studentteacher-ssl-is-good-for-world-models">Why Student–Teacher SSL Is Good for World Models</h3>
+
+<p>World models could require learning from vast streams of partially observed, noisy data—exactly where labels are hardest to obtain.  Student–teacher SSL provides:</p>
+
+<ul>
+  <li><strong>Label‑free scalability</strong> – Works on billions of internet images, raw video, agent rollouts or multimodal corpora.</li>
+  <li><strong>Stability</strong> – EMA teachers and regularisation avoid collapse and noisy gradients.</li>
+  <li><strong>Computational efficiency</strong> – No need for giant batches or external memory structures.</li>
+  <li><strong>Modality agnosticism</strong> – Proven in vision, speech and language, making it ideal for unified, multi‑sensor world models.</li>
+</ul>
+
+<p>Consider JEPA as a concrete variation: rather than aligning two augmented views of the same input, it trains the student to predict the teacher’s representation of a masked region using only partial context. This predictive setup still relies on a student–teacher framework (with an EMA teacher), but shifts the objective toward inferring latent structure.  Variants of this idea could lead to increasingly powerful and scalable pretraining strategies for world models.</p>
+
+<h3 id="key-takeaways">Key Takeaways</h3>
+
+<ol>
+  <li>
+    <p><strong>Proven across tasks and modalities</strong><br />
+Student–teacher SSL has driven breakthroughs from Mean Teacher and MoCo to BYOL, DINO, and the JEPA family, as well as in speech (HuBERT) and multimodal settings (CLIP variants). Its repeated success points to a broadly applicable learning principle.</p>
+  </li>
+  <li>
+    <p><strong>Evolving design space</strong><br />
+Classic tricks—memory banks, centering, sharpening, predictor asymmetry—remain useful, while newer predictive variants such as JEPA demonstrate that simply changing <em>what</em> the student predicts (alignment vs. masked‑region inference) can open entirely new capabilities.</p>
+  </li>
+  <li>
+    <p><strong>Simpler and more compute‑friendly than contrastive methods</strong><br />
+By eliminating negative pairs and large batch requirements, student–teacher approaches reduce engineering overhead and make large‑scale pretraining more accessible.</p>
+  </li>
+  <li>
+    <p><strong>Well matched to world‑model objectives</strong><br />
+The consistency‑based signals that guide student–teacher SSL align naturally with the need to infer hidden or future state. JEPA’s masked‑region prediction shows how the same machinery can be adapted for forward‑simulation tasks.</p>
+  </li>
+  <li>
+    <p><strong>Valuable, but not the only tool</strong><br />
+A strong grasp of student–teacher SSL provides a practical head start for building richer world models, yet it can be complemented with other techniques—contrastive objectives, generative modeling, or reinforcement learning—to meet specific domain requirements.</p>
+  </li>
+</ol>]]></content><author><name>Busra Tugce Gurbuz</name></author><category term="ssl" /><summary type="html"><![CDATA[Training an agent that can reason about its environment—without ground‑truth labels—requires a robust internal simulator, often called a world model. Among the many ideas in self‑supervised learning (SSL), the student–teacher paradigm has proven repeatedly effective at producing the high‑quality representations that such world models depend on.]]></summary></entry><entry><title type="html">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</title><link href="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" rel="alternate" type="text/html" title="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" /><published>2024-07-22T00:00:00-04:00</published><updated>2024-07-22T00:00:00-04:00</updated><id>http://localhost:4000/compute/2024/07/22/use_your_GPUs</id><content type="html" xml:base="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"><![CDATA[<p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
 
 <hr />
 
