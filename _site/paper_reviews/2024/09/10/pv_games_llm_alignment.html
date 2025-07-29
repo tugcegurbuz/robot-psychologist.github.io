@@ -1,5 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-29T11:39:33-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Robot psychologist’s blog</title><subtitle>Welcome to Robot Psychologist&apos;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&apos;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&apos;re into how intelligent systems (human or artificial) learn, adapt, and act, you&apos;ll feel right at home.
-</subtitle><author><name>Busra Tugce Gurbuz</name><email></email></author><entry><title type="html">Prover-Verifier Games Improve Legibility of LLM Output</title><link href="http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html" rel="alternate" type="text/html" title="Prover-Verifier Games Improve Legibility of LLM Output" /><published>2024-09-10T00:00:00-04:00</published><updated>2024-09-10T00:00:00-04:00</updated><id>http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment</id><content type="html" xml:base="http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html"><![CDATA[<p>In this post, we’re reviewing the paper <em><a href="https://arxiv.org/abs/2407.13692">Prover-Verifier Games Improve Legibility of LLM Output</a></em> from OpenAI.</p>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Prover-Verifier Games Improve Legibility of LLM Output | Robot psychologist’s blog</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Prover-Verifier Games Improve Legibility of LLM Output" />
+<meta name="author" content="Busra Tugce Gurbuz" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In this post, we’re reviewing the paper Prover-Verifier Games Improve Legibility of LLM Output from OpenAI." />
+<meta property="og:description" content="In this post, we’re reviewing the paper Prover-Verifier Games Improve Legibility of LLM Output from OpenAI." />
+<link rel="canonical" href="http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html" />
+<meta property="og:url" content="http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html" />
+<meta property="og:site_name" content="Robot psychologist’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-10T00:00:00-04:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Prover-Verifier Games Improve Legibility of LLM Output" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Busra Tugce Gurbuz"},"dateModified":"2024-09-10T00:00:00-04:00","datePublished":"2024-09-10T00:00:00-04:00","description":"In this post, we’re reviewing the paper Prover-Verifier Games Improve Legibility of LLM Output from OpenAI.","headline":"Prover-Verifier Games Improve Legibility of LLM Output","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html"},"url":"http://localhost:4000/paper_reviews/2024/09/10/pv_games_llm_alignment.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Robot psychologist&apos;s blog" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Robot psychologist&#39;s blog</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon fas fa-bars fa-lg"></span>
+        </label>
+
+        <div class="drawer-container">
+          <div class="drawer">
+  <a class="nav-item" href="/about/">About</a>
+          </div>
+        </div>
+        <div class="slab">
+  <a class="nav-item" href="/about/">About</a>
+        </div>
+      </nav>
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline"> Prover-Verifier Games Improve Legibility of LLM Output</h1>
+    <div class="post-meta">
+      <time class="dt-published" datetime="2024-09-10T00:00:00-04:00" itemprop="datePublished">
+        Sep 10, 2024
+      </time>
+    </div>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post, we’re reviewing the paper <em><a href="https://arxiv.org/abs/2407.13692">Prover-Verifier Games Improve Legibility of LLM Output</a></em> from OpenAI.</p>
 
 <h3 id="whats-the-problem-theyre-tackling">What’s the problem they’re tackling?</h3>
 
@@ -455,250 +514,58 @@ Train a single verifier that guards reasoning across math, code, and natural‑l
 <h3 id="takehome-message">Take‑Home Message</h3>
 
 <p>If we want LLMs to <strong>reason <em>with</em> us rather than <em>for</em> us</strong>, we need outputs that are <em>convincingly correct</em> <strong><em>and</em></strong> <em>transparently verifiable</em>.<br />
-The Prover‑Verifier Game is a promising step in that direction.</p>]]></content><author><name>Busra Tugce Gurbuz</name></author><category term="paper_reviews" /><summary type="html"><![CDATA[In this post, we’re reviewing the paper Prover-Verifier Games Improve Legibility of LLM Output from OpenAI.]]></summary></entry><entry><title type="html">From BYOL to JEPA: How Student–Teacher Networks Quietly Became the Brains Behind World Models</title><link href="http://localhost:4000/ssl/2024/07/29/ts_world_models.html" rel="alternate" type="text/html" title="From BYOL to JEPA: How Student–Teacher Networks Quietly Became the Brains Behind World Models" /><published>2024-07-29T00:00:00-04:00</published><updated>2024-07-29T00:00:00-04:00</updated><id>http://localhost:4000/ssl/2024/07/29/ts_world_models</id><content type="html" xml:base="http://localhost:4000/ssl/2024/07/29/ts_world_models.html"><![CDATA[<p>Training an agent that can reason about its environment—without ground‑truth labels—requires a robust internal simulator, often called a <strong>world model</strong>.  Among the many ideas in self‑supervised learning (SSL), the <strong>student–teacher paradigm</strong> has proven repeatedly effective at producing the high‑quality representations that such world models depend on.</p>
+The Prover‑Verifier Game is a promising step in that direction.</p>
 
-<p>This post explains how student–teacher SSL works, why it has been influential and might be important for building better world models.</p>
+  </div><a class="u-url" href="/paper_reviews/2024/09/10/pv_games_llm_alignment.html" hidden></a>
+</article>
 
-<h3 id="what-is-a-studentteacher-network">What Is a Student–Teacher Network?</h3>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
 
-<p>A student–teacher setup contains two networks:</p>
+  <div class="wrapper">
 
-<ul>
-  <li><strong>Teacher</strong> – Provides target features or predictions.</li>
-  <li><strong>Student</strong> – Trains to match those targets across augmented views of the same input.</li>
-</ul>
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <!-- <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+              />
+            </svg><span>Subscribe</span>
+          </a>
+        </p> -->
+        <ul class="contact-list">
+          <li class="p-name">Busra Tugce Gurbuz</li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Welcome to Robot Psychologist&#39;s Blog — a blog where I unpack the inner workings of intelligent systems, one curious question at a time.  I&#39;m a PhD student in AI with a BSc in neuroscience and psychology, and this is my space to explore the ideas. If you&#39;re into how intelligent systems (human or artificial) learn, adapt, and act, you&#39;ll feel right at home.
+</p>
+      </div>
+    </div>
 
-<p>The teacher is usually an <strong>exponential moving average (EMA)</strong> of the student, so its parameters evolve slowly and provide a stable learning signal.  Because targets come from the model itself rather than external labels, the approach scales to unlabeled data.</p>
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
 
-<h3 id="why-it-works">Why It Works</h3>
+  </div>
 
-<ul>
-  <li><strong>Soft targets carry richer information</strong> than one‑hot labels, exposing inter‑class structure and uncertainty.</li>
-  <li><strong>Temporal smoothing</strong> via EMA aggregates knowledge over many updates, acting like an implicit ensemble.</li>
-  <li><strong>Augmentation consistency</strong> forces invariance to viewpoint, color, cropping and other real‑world nuisance factors.</li>
-</ul>
+</footer>
 
-<h3 id="a-brief-historical-detour">A Brief Historical Detour</h3>
+</body>
 
-<p>The student–teacher idea is far from new; it has surfaced in diverse corners of SSL for nearly a decade.</p>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 
-<ul>
-  <li><strong>Temporal Ensembling (2017)</strong> – Improved semi‑supervised classification by averaging model predictions over multiple epochs.</li>
-  <li><strong>Mean Teacher (2017)</strong> – Used EMA weights explicitly to create a teacher for consistency regularisation.</li>
-  <li><strong>MoCo (2019)</strong> – Employed a momentum encoder (teacher) to populate a memory bank for contrastive learning.</li>
-  <li><strong>BYOL (2020)</strong> – Demonstrated that a student can learn useful features from an EMA teacher without any negative pairs.</li>
-  <li><strong>DINO (2021)</strong> – Showed that applying centering and sharpening to teacher outputs prevents collapse at scale.</li>
-  <li><strong>JEPA family (2023 – present)</strong> – Recasts the student–teacher idea as <strong>masked‑region prediction</strong>: the student, given only a partial view, predicts the teacher’s features for the hidden region.  This simple shift from view alignment to spatial prediction yields object‑centric, forward‑looking representations—ideal for world‑model objectives.</li>
-  <li><strong>Speech, NLP and Multimodal Work</strong> – Similar momentum‑distillation ideas power HuBERT, CLIP variants, and more.</li>
-</ul>
-
-<h4 id="why-this-lineage-matters">Why This Lineage Matters</h4>
-
-<ol>
-  <li><strong>Evidence of robustness</strong> – The same principle succeeds across vision, speech and language, suggesting a fundamental mechanism.</li>
-  <li><strong>Design inspiration</strong> – Historical tricks (memory banks, centering, sharpening, predictor asymmetry) offer a toolbox for future models.</li>
-  <li><strong>Theoretical grounding</strong> – Understanding how targets evolve sheds light on why collapse happens and how to avoid it.</li>
-  <li><strong>Transferable intuition</strong> – Insights gained in vision often translate to other modalities, accelerating cross‑domain progress.</li>
-</ol>
-
-<h3 id="moving-beyond-contrastive-learning">Moving Beyond Contrastive Learning</h3>
-
-<p>Early SSL methods such as SimCLR and InfoNCE relied on negative pairs: anchor‑positive similarities were maximised while anchor‑negative similarities were minimised.  This led to:</p>
-
-<ul>
-  <li>Large batch‑size requirements.</li>
-  <li>Risk of <strong>false negatives</strong> when semantically similar images were pushed apart.</li>
-  <li>Additional engineering (memory banks, distributed synchronisation).</li>
-</ul>
-
-<p>Student–teacher methods sidestep these issues by <strong>removing negatives altogether</strong>.  Instead, learning is driven by matching the teacher’s targets, greatly simplifying training and improving stability.</p>
-
-<h3 id="collapse-and-how-to-avoid-it">Collapse and How to Avoid It</h3>
-
-<p>Removing negatives introduces a new risk: the student may converge to a trivial solution where every input maps to the same embedding, a phenomenon known as “collapse”.</p>
-
-<ul>
-  <li><strong>BYOL</strong> counters this with architectural asymmetry (student has an extra predictor) and EMA updates.</li>
-  <li><strong>DINO</strong> keeps both networks identical but applies two regularisers:
-    <ul>
-      <li><strong>Centering</strong> subtracts a running mean to prevent feature domination.</li>
-      <li><strong>Sharpening</strong> uses low‑temperature softmax to encourage confident, non‑uniform outputs.</li>
-    </ul>
-  </li>
-</ul>
-
-<p>These tricks maintain diversity without re‑introducing negatives.</p>
-
-<h3 id="why-studentteacher-ssl-is-good-for-world-models">Why Student–Teacher SSL Is Good for World Models</h3>
-
-<p>World models could require learning from vast streams of partially observed, noisy data—exactly where labels are hardest to obtain.  Student–teacher SSL provides:</p>
-
-<ul>
-  <li><strong>Label‑free scalability</strong> – Works on billions of internet images, raw video, agent rollouts or multimodal corpora.</li>
-  <li><strong>Stability</strong> – EMA teachers and regularisation avoid collapse and noisy gradients.</li>
-  <li><strong>Computational efficiency</strong> – No need for giant batches or external memory structures.</li>
-  <li><strong>Modality agnosticism</strong> – Proven in vision, speech and language, making it ideal for unified, multi‑sensor world models.</li>
-</ul>
-
-<p>Consider JEPA as a concrete variation: rather than aligning two augmented views of the same input, it trains the student to predict the teacher’s representation of a masked region using only partial context. This predictive setup still relies on a student–teacher framework (with an EMA teacher), but shifts the objective toward inferring latent structure.  Variants of this idea could lead to increasingly powerful and scalable pretraining strategies for world models.</p>
-
-<h3 id="key-takeaways">Key Takeaways</h3>
-
-<ol>
-  <li>
-    <p><strong>Proven across tasks and modalities</strong><br />
-Student–teacher SSL has driven breakthroughs from Mean Teacher and MoCo to BYOL, DINO, and the JEPA family, as well as in speech (HuBERT) and multimodal settings (CLIP variants). Its repeated success points to a broadly applicable learning principle.</p>
-  </li>
-  <li>
-    <p><strong>Evolving design space</strong><br />
-Classic tricks—memory banks, centering, sharpening, predictor asymmetry—remain useful, while newer predictive variants such as JEPA demonstrate that simply changing <em>what</em> the student predicts (alignment vs. masked‑region inference) can open entirely new capabilities.</p>
-  </li>
-  <li>
-    <p><strong>Simpler and more compute‑friendly than contrastive methods</strong><br />
-By eliminating negative pairs and large batch requirements, student–teacher approaches reduce engineering overhead and make large‑scale pretraining more accessible.</p>
-  </li>
-  <li>
-    <p><strong>Well matched to world‑model objectives</strong><br />
-The consistency‑based signals that guide student–teacher SSL align naturally with the need to infer hidden or future state. JEPA’s masked‑region prediction shows how the same machinery can be adapted for forward‑simulation tasks.</p>
-  </li>
-  <li>
-    <p><strong>Valuable, but not the only tool</strong><br />
-A strong grasp of student–teacher SSL provides a practical head start for building richer world models, yet it can be complemented with other techniques—contrastive objectives, generative modeling, or reinforcement learning—to meet specific domain requirements.</p>
-  </li>
-</ol>]]></content><author><name>Busra Tugce Gurbuz</name></author><category term="ssl" /><summary type="html"><![CDATA[Training an agent that can reason about its environment—without ground‑truth labels—requires a robust internal simulator, often called a world model. Among the many ideas in self‑supervised learning (SSL), the student–teacher paradigm has proven repeatedly effective at producing the high‑quality representations that such world models depend on.]]></summary></entry><entry><title type="html">Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments</title><link href="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html" rel="alternate" type="text/html" title="Stop Letting Your GPU Nap: Stack Jobs and Supercharge Your Experiments" /><published>2024-07-22T00:00:00-04:00</published><updated>2024-07-22T00:00:00-04:00</updated><id>http://localhost:4000/compute/2024/07/22/use_your_GPUs</id><content type="html" xml:base="http://localhost:4000/compute/2024/07/22/use_your_GPUs.html"><![CDATA[<p><em>Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.</em></p>
-
-<hr />
-
-<h3 id="wait-why-is-my-gpu-so-bored-">Wait, Why Is My GPU So Bored? 🥹</h3>
-
-<p>Ever peeked at <code class="language-plaintext highlighter-rouge">nvidia-smi</code> mid-training and felt personally offended by a <strong>15% GPU utilization</strong> reading?</p>
-
-<p>You’re not alone.</p>
-
-<p>In many ML setups—especially in deep reinforcement learning or self-supervised learning—the GPU ends up spending more time <strong>waiting around</strong> than doing actual work. Here’s why:</p>
-
-<ul>
-  <li>Your model might be <strong>tiny</strong> (looking at you, MLPs and small CNNs).</li>
-  <li><strong>Environment steps</strong> in RL live on the CPU and take their sweet time.</li>
-  <li><strong>Data augmentation</strong> and preprocessing often clog the CPU while the GPU twiddles its thumbs.</li>
-  <li>Even classic vision or SimCLR jobs on CIFAR-10 barely dent the surface of a modern A100’s power.</li>
-</ul>
-
-<p>Moral of the story? <strong>You’ve got untapped compute just sitting there.</strong></p>
-
-<h3 id="signs-of-gpu-underuse">Signs of GPU Underuse</h3>
-
-<p>Here’s how to know your GPU’s taking a nap:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">nvidia-smi</code> shows <strong>plenty of free VRAM</strong> (e.g., using 5 GB out of 40 GB).</li>
-  <li>Compute “Util” column idles in the teens while the CPU sits near 100 %.
-    <ul>
-      <li>Example: a fastai ResNet-18 computer-vision run on an A100 sat at ~20 % util with memory to spare (<a href="https://stackoverflow.com/questions/75553862/low-utilization-of-the-a100-gpu-with-fastai">reference</a>) or an RLlib DQN job with 256 k batch size still spiked only briefly above 25 %</li>
-    </ul>
-  </li>
-</ul>
-
-<p>You might be tempted to buy more GPUs. Don’t. <strong>Use what you already have better.</strong></p>
-
-<h3 id="the-secret-run-multiple-jobs-at-once">The Secret: Run Multiple Jobs at Once</h3>
-
-<p>If your current job is only using a slice of the GPU, just stack more on top!</p>
-
-<p>Here’s the magic formula:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run three jobs in parallel</span>
-<span class="k">for </span>cfg <span class="k">in </span>cfg1.yaml cfg2.yaml cfg3.yaml<span class="p">;</span> <span class="k">do
-    </span>python train.py <span class="nt">--config</span> <span class="nv">$cfg</span> &amp; 
-<span class="k">done
-</span><span class="nb">wait</span> <span class="c"># Let them all finish before exiting</span>
-</code></pre></div></div>
-
-<p>Why it works:</p>
-
-<ul>
-  <li>
-    <p>Each job uses a slice of VRAM; their peaks rarely coincide.</p>
-  </li>
-  <li>Streaming Multiprocessor stay busier because when one job waits on the CPU, another is mid-backprop.
-    <ul>
-      <li><strong>More info on SMs:</strong> Each SM handles the actual math operations (like matrix multiplies and convolutions). A100 has 108 SMs, which means it can handle a lot of parallel math — if you feed it well.</li>
-    </ul>
-  </li>
-  <li>You triple sweep throughput without touching the cluster queue.</li>
-</ul>
-
-<p>This trick works great for:</p>
-
-<ul>
-  <li>Hyperparameter sweeps</li>
-  <li>Seed averaging</li>
-  <li>Trying three ideas because you’re impatient (relatable)</li>
-</ul>
-
-<h3 id="tips-pitfalls-and-gotchas-with-explanations">Tips, Pitfalls, and Gotchas (With Explanations!)</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>✅ / ⚠️</th>
-      <th>What You Should Know</th>
-      <th>Why It Matters</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>✅</td>
-      <td><strong>Leave ~10% VRAM unused</strong></td>
-      <td>PyTorch loves to surprise you with memory spikes. A small buffer helps you avoid sudden OOM crashes that wipe out <em>all</em> jobs.</td>
-    </tr>
-    <tr>
-      <td>✅</td>
-      <td><strong>Use <code class="language-plaintext highlighter-rouge">/scratch</code> or SSD storage</strong></td>
-      <td>If three jobs all hit the disk at once on slow storage, your fancy parallelism will turn into a data-loading traffic jam.</td>
-    </tr>
-    <tr>
-      <td>✅</td>
-      <td><strong>Tag runs in your logger (e.g., <code class="language-plaintext highlighter-rouge">wandb --group stacked</code>)</strong></td>
-      <td>Keeps your dashboards from looking like a spaghetti bowl of metrics. Easier to compare, track, and brag about.</td>
-    </tr>
-    <tr>
-      <td>✅</td>
-      <td><strong>Watch <code class="language-plaintext highlighter-rouge">num_workers</code> and threads</strong></td>
-      <td>Each job spawns data loaders. Multiply that by three and suddenly your system has 48 zombie processes hoarding RAM. Keep things lean.</td>
-    </tr>
-    <tr>
-      <td>⚠️</td>
-      <td><strong>Don’t stack giant models</strong></td>
-      <td>If you’re running LLMs, ViTs, or anything eating 80%+ VRAM, just… don’t. You’ll get out-of-memory errors faster than you can say “SIGKILL”.</td>
-    </tr>
-    <tr>
-      <td>⚠️</td>
-      <td><strong>Know your cluster’s rules</strong></td>
-      <td>Some clusters have strict policies: one job per GPU, no background processes, etc. Break them, and you might lose access. Nobody wants that email.</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="tldr-">TL;DR 💛</h3>
-
-<p><strong>If your GPU looks bored, it probably is.</strong></p>
-
-<p>Instead of leaving it idle, stack 2–3 light-to-medium jobs on the same card. You’ll:</p>
-
-<ul>
-  <li>Finish sweeps 2–3x faster</li>
-  <li>Reduce total GPU-hours</li>
-  <li>Help your labmates get off the waitlist</li>
-</ul>
-
-<h3 id="your-move-">Your Move 💅</h3>
-
-<ol>
-  <li>Fire up few extra jobs.</li>
-  <li>Monitor <code class="language-plaintext highlighter-rouge">nvidia-smi</code>.</li>
-  <li>Watch your GPU actually break a sweat.</li>
-  <li>Flex your productivity gains.</li>
-</ol>
-
-<p>You don’t need more compute—you just need to <strong>use it smarter</strong>.</p>]]></content><author><name>Busra Tugce Gurbuz</name></author><category term="compute" /><summary type="html"><![CDATA[Tips for ML researchers on shared clusters who are tired of slow experiments and sleepy GPUs.]]></summary></entry></feed>
+</html>
